@@ -1,0 +1,13 @@
+{
+  "rows": 225745,
+  "columns": 85,
+  "numeric_columns": 80,
+  "non_numeric_columns": 5,
+  "missing_values": 4,
+  "infinite_values": 64,
+  "duplicate_rows": 2,
+  "class_distribution": {
+    "DDoS": 128027,
+    "BENIGN": 97718
+  }
+}

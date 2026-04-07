@@ -1,0 +1,74 @@
+2026-04-06 14:18:39 | INFO     | advanced_ddos_detection.data.loader | Loading dataset from /content/sares/advanced_ddos_detection/data/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
+2026-04-06 14:18:40 | INFO     | advanced_ddos_detection.data.loader | Loaded 225745 rows × 85 columns
+2026-04-06 14:18:40 | INFO     | advanced_ddos_detection.data.loader | Missing values: 4 | Infinite values: 64
+2026-04-06 14:18:40 | INFO     | advanced_ddos_detection.data.loader | Label distribution:
+ Label
+DDoS      128027
+BENIGN     97718
+2026-04-06 14:18:40 | INFO     | advanced_ddos_detection.data.preprocessor | Dropped configured columns: ['Flow ID', ' Source IP', ' Destination IP', ' Timestamp']
+2026-04-06 14:18:40 | INFO     | advanced_ddos_detection.data.preprocessor | Encoded target classes: ['BENIGN', 'DDoS']
+2026-04-06 14:18:40 | INFO     | advanced_ddos_detection.data.preprocessor | Dropped 10 zero-variance columns: [' Bwd PSH Flags', ' Fwd URG Flags', ' Bwd URG Flags', ' CWE Flag Count', 'Fwd Avg Bytes/Bulk', ' Fwd Avg Packets/Bulk', ' Fwd Avg Bulk Rate', ' Bwd Avg Bytes/Bulk', ' Bwd Avg Packets/Bulk', 'Bwd Avg Bulk Rate']
+2026-04-06 14:18:40 | INFO     | advanced_ddos_detection.data.preprocessor | Split → train 180596 | test 45149 (stratify=True)
+2026-04-06 14:18:41 | INFO     | advanced_ddos_detection.data.preprocessor | IQR outlier capping applied (factor=1.5)
+2026-04-06 14:18:41 | INFO     | advanced_ddos_detection.data.preprocessor | Scaling: standard
+2026-04-06 14:18:51 | INFO     | advanced_ddos_detection.data.preprocessor | SMOTE: 180596 → 204844 samples (k=5)
+2026-04-06 14:18:51 | INFO     | advanced_ddos_detection.models.ml_models | [random_forest] Starting GridSearchCV (cv=5, scoring=f1_weighted)
+2026-04-06 14:20:09 | INFO     | advanced_ddos_detection.models.ml_models | [random_forest] Best params: {'max_depth': 20, 'n_estimators': 100}
+2026-04-06 14:20:09 | INFO     | advanced_ddos_detection.evaluation.evaluator | [random_forest] accuracy=0.9998  f1_weighted=0.9998  mcc=0.9996  kappa=0.9996  roc_auc=1.0000
+2026-04-06 14:20:09 | INFO     | advanced_ddos_detection.models.ml_models | [xgboost] Starting GridSearchCV (cv=5, scoring=f1_weighted)
+2026-04-06 14:20:14 | INFO     | advanced_ddos_detection.models.ml_models | [xgboost] Best params: {'learning_rate': 0.1, 'max_depth': 6, 'n_estimators': 50}
+2026-04-06 14:20:14 | INFO     | advanced_ddos_detection.evaluation.evaluator | [xgboost] accuracy=0.9998  f1_weighted=0.9998  mcc=0.9995  kappa=0.9995  roc_auc=1.0000
+2026-04-06 14:20:14 | INFO     | advanced_ddos_detection.models.ml_models | [lightgbm] Starting GridSearchCV (cv=5, scoring=f1_weighted)
+2026-04-06 14:20:21 | INFO     | advanced_ddos_detection.models.ml_models | [lightgbm] Best params: {'learning_rate': 0.1, 'n_estimators': 50, 'num_leaves': 31}
+2026-04-06 14:20:21 | INFO     | advanced_ddos_detection.evaluation.evaluator | [lightgbm] accuracy=1.0000  f1_weighted=1.0000  mcc=0.9999  kappa=0.9999  roc_auc=1.0000
+2026-04-06 14:20:21 | INFO     | advanced_ddos_detection.models.ml_models | [catboost] Starting GridSearchCV (cv=5, scoring=f1_weighted)
+2026-04-06 14:20:30 | INFO     | advanced_ddos_detection.models.ml_models | [catboost] Best params: {'depth': 6, 'iterations': 50, 'learning_rate': 0.1}
+2026-04-06 14:20:30 | INFO     | advanced_ddos_detection.evaluation.evaluator | [catboost] accuracy=0.9998  f1_weighted=0.9998  mcc=0.9996  kappa=0.9996  roc_auc=1.0000
+2026-04-06 14:20:30 | INFO     | advanced_ddos_detection.models.ml_models | [gradient_boosting] Starting GridSearchCV (cv=5, scoring=f1_weighted)
+2026-04-06 14:25:15 | INFO     | advanced_ddos_detection.models.ml_models | [gradient_boosting] Best params: {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 50}
+2026-04-06 14:25:15 | INFO     | advanced_ddos_detection.evaluation.evaluator | [gradient_boosting] accuracy=0.9997  f1_weighted=0.9997  mcc=0.9994  kappa=0.9994  roc_auc=1.0000
+2026-04-06 14:25:15 | INFO     | advanced_ddos_detection.models.ml_models | [logistic_regression] Starting GridSearchCV (cv=5, scoring=f1_weighted)
+2026-04-06 14:25:22 | INFO     | advanced_ddos_detection.models.ml_models | [logistic_regression] Best params: {'C': 1.0, 'solver': 'lbfgs'}
+2026-04-06 14:25:22 | INFO     | advanced_ddos_detection.evaluation.evaluator | [logistic_regression] accuracy=0.9990  f1_weighted=0.9990  mcc=0.9981  kappa=0.9981  roc_auc=0.9999
+2026-04-06 14:25:22 | INFO     | advanced_ddos_detection.models.ml_models | [knn] Starting GridSearchCV (cv=5, scoring=f1_weighted)
+2026-04-06 14:26:41 | INFO     | advanced_ddos_detection.models.ml_models | [knn] Best params: {'n_neighbors': 5, 'weights': 'distance'}
+2026-04-06 14:27:09 | INFO     | advanced_ddos_detection.evaluation.evaluator | [knn] accuracy=0.9997  f1_weighted=0.9997  mcc=0.9993  kappa=0.9993  roc_auc=0.9999
+2026-04-06 14:27:09 | INFO     | advanced_ddos_detection.models.dl_model | MLP model built: ['dense', 'batch_normalization', 'dropout', 'dense_1', 'batch_normalization_1', 'dropout_1', 'dense_2', 'batch_normalization_2', 'dropout_2', 'dense_3']
+2026-04-06 14:27:09 | INFO     | advanced_ddos_detection.models.dl_model | Training MLP for up to 100 epochs …
+2026-04-06 14:31:10 | INFO     | advanced_ddos_detection.models.dl_model | MLP training stopped at epoch 33
+2026-04-06 14:31:12 | INFO     | advanced_ddos_detection.evaluation.evaluator | [DL_MLP] accuracy=0.9995  f1_weighted=0.9995  mcc=0.9991  kappa=0.9991  roc_auc=1.0000
+2026-04-06 14:31:12 | INFO     | advanced_ddos_detection.models.dl_model | LSTM model built: 2 LSTM layers, 1 dense layers
+2026-04-06 14:31:12 | INFO     | advanced_ddos_detection.models.dl_model | Training LSTM for up to 100 epochs …
+2026-04-06 15:05:42 | INFO     | advanced_ddos_detection.models.dl_model | LSTM training stopped at epoch 32
+2026-04-06 15:05:57 | INFO     | advanced_ddos_detection.evaluation.evaluator | [DL_LSTM] accuracy=0.9996  f1_weighted=0.9996  mcc=0.9992  kappa=0.9992  roc_auc=1.0000
+2026-04-06 15:05:57 | INFO     | advanced_ddos_detection.models.dl_model | CNN1D model built: filters=[32, 64], kernel=3
+2026-04-06 15:05:57 | INFO     | advanced_ddos_detection.models.dl_model | Training CNN1D for up to 100 epochs …
+2026-04-06 15:10:10 | INFO     | advanced_ddos_detection.models.dl_model | CNN1D training stopped at epoch 19
+2026-04-06 15:10:13 | INFO     | advanced_ddos_detection.evaluation.evaluator | [DL_CNN1D] accuracy=0.9995  f1_weighted=0.9995  mcc=0.9991  kappa=0.9991  roc_auc=1.0000
+2026-04-06 15:10:13 | INFO     | advanced_ddos_detection.models.ensemble | [Ensemble_voting] Built with 7 base models: ['random_forest', 'xgboost', 'lightgbm', 'catboost', 'gradient_boosting', 'logistic_regression', 'knn']
+2026-04-06 15:10:13 | INFO     | advanced_ddos_detection.models.ensemble | [Ensemble_voting] Training ensemble …
+2026-04-06 15:12:08 | INFO     | advanced_ddos_detection.models.ensemble | [Ensemble_voting] Training complete
+2026-04-06 15:12:23 | INFO     | advanced_ddos_detection.evaluation.evaluator | [Ensemble_voting] accuracy=0.9998  f1_weighted=0.9998  mcc=0.9996  kappa=0.9996
+2026-04-06 15:12:23 | INFO     | advanced_ddos_detection.models.ensemble | [Ensemble_stacking] Built with 7 base models: ['random_forest', 'xgboost', 'lightgbm', 'catboost', 'gradient_boosting', 'logistic_regression', 'knn']
+2026-04-06 15:12:23 | INFO     | advanced_ddos_detection.models.ensemble | [Ensemble_stacking] Training ensemble …
+2026-04-06 15:19:06 | INFO     | advanced_ddos_detection.models.ensemble | [Ensemble_stacking] Training complete
+2026-04-06 15:19:35 | INFO     | advanced_ddos_detection.evaluation.evaluator | [Ensemble_stacking] accuracy=0.9998  f1_weighted=0.9998  mcc=0.9995  kappa=0.9995  roc_auc=1.0000
+2026-04-06 15:19:41 | INFO     | advanced_ddos_detection.evaluation.evaluator | Confusion matrices saved to /content/sares/advanced_ddos_detection/reports/confusion_matrices.png
+2026-04-06 15:19:42 | INFO     | advanced_ddos_detection.evaluation.evaluator | ROC curves saved to /content/sares/advanced_ddos_detection/reports/roc_curves.png
+2026-04-06 15:19:43 | INFO     | advanced_ddos_detection.evaluation.evaluator | PR curves saved to /content/sares/advanced_ddos_detection/reports/pr_curves.png
+2026-04-06 15:19:43 | INFO     | advanced_ddos_detection.evaluation.evaluator | Comparison chart saved to /content/sares/advanced_ddos_detection/reports/model_comparison.png
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | Scaler saved to /content/sares/advanced_ddos_detection/saved_models/scaler.joblib
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | LabelEncoder saved to /content/sares/advanced_ddos_detection/saved_models/label_encoder.joblib
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | [random_forest] Model saved to /content/sares/advanced_ddos_detection/saved_models/random_forest/model.joblib
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | [xgboost] Model saved to /content/sares/advanced_ddos_detection/saved_models/xgboost/model.joblib
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | [lightgbm] Model saved to /content/sares/advanced_ddos_detection/saved_models/lightgbm/model.joblib
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | [catboost] Model saved to /content/sares/advanced_ddos_detection/saved_models/catboost/model.joblib
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | [gradient_boosting] Model saved to /content/sares/advanced_ddos_detection/saved_models/gradient_boosting/model.joblib
+2026-04-06 15:19:44 | INFO     | advanced_ddos_detection.utils.persistence | [logistic_regression] Model saved to /content/sares/advanced_ddos_detection/saved_models/logistic_regression/model.joblib
+2026-04-06 15:19:45 | INFO     | advanced_ddos_detection.utils.persistence | [knn] Model saved to /content/sares/advanced_ddos_detection/saved_models/knn/model.joblib
+2026-04-06 15:19:45 | INFO     | advanced_ddos_detection.utils.persistence | [DL_MLP] Keras model saved to /content/sares/advanced_ddos_detection/saved_models/DL_MLP/keras_model.keras
+2026-04-06 15:19:45 | INFO     | advanced_ddos_detection.utils.persistence | [DL_LSTM] Keras model saved to /content/sares/advanced_ddos_detection/saved_models/DL_LSTM/keras_model.keras
+2026-04-06 15:19:45 | INFO     | advanced_ddos_detection.utils.persistence | [DL_CNN1D] Keras model saved to /content/sares/advanced_ddos_detection/saved_models/DL_CNN1D/keras_model.keras
+2026-04-06 15:19:46 | INFO     | advanced_ddos_detection.utils.persistence | [Ensemble_voting] Model saved to /content/sares/advanced_ddos_detection/saved_models/Ensemble_voting/model.joblib
+2026-04-06 15:19:46 | INFO     | advanced_ddos_detection.utils.persistence | [Ensemble_stacking] Model saved to /content/sares/advanced_ddos_detection/saved_models/Ensemble_stacking/model.joblib
+2026-04-06 15:19:46 | INFO     | advanced_ddos_detection.utils.persistence | [lightgbm] Model loaded from /content/sares/advanced_ddos_detection/saved_models/lightgbm/model.joblib

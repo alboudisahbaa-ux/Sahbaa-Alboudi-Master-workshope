@@ -1,0 +1,238 @@
+# ============================================================
+# Advanced DDoS Detection — Master Configuration
+# ============================================================
+
+project:
+  name: "Advanced DDoS Detection"
+  version: "1.0.0"
+  seed: 42
+
+# -- Data ---------------------------------------------------
+data:
+  # Path to the CIC-DDoS2019 CSV file
+  file_path: "data/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv"
+  target_column: " Label"          # note: leading space in original dataset
+  drop_columns:
+    - "Flow ID"
+    - " Source IP"
+    - " Destination IP"
+    - " Timestamp"
+  test_size: 0.2
+  validation_size: 0.2             # carved from training set for DL
+  stratify: true
+
+# -- Exploratory Data Analysis (EDA) -----------------------
+eda:
+  enabled: true
+  sample_size: 50000               # subsample for heavy plots
+  top_n_features: 12               # feature distribution / KDE plots
+  corr_top_features: 20            # heatmap feature count
+  max_classes_plot: 20             # top classes shown in bar chart
+  tsne_perplexity: 30              # t-SNE perplexity parameter
+  tsne_sample: 8000                # subsample for t-SNE (speed)
+  pairplot_features: 4             # features in pairplot grid
+
+# -- Preprocessing ------------------------------------------
+preprocessing:
+  handle_inf: true                 # replace ±inf
+  handle_nan: true                 # impute NaN
+  nan_strategy: "mean"             # mean | median | knn
+  knn_neighbors: 5                 # neighbours for KNN imputer
+  clip_lower: -1000000.0
+  clip_upper:  1000000.0
+  scaler: "standard"               # standard | minmax | robust
+  outlier_method: "iqr"            # none | iqr | clip
+  iqr_factor: 1.5                  # IQR multiplier for outlier bounds
+
+# -- Class Balancing ----------------------------------------
+balancing:
+  enabled: true
+  method: "smote"                  # smote | class_weight | none
+  smote_k_neighbors: 5
+
+# -- Cross-Validation ---------------------------------------
+cross_validation:
+  enabled: true
+  n_splits: 5
+  strategy: "stratified"           # stratified | standard
+
+# -- Feature Engineering ------------------------------------
+features:
+  select_k_best: 10
+  score_func: "f_classif"          # f_classif | mutual_info_classif
+  use_rf_importance: true
+  rf_n_estimators: 100
+
+# -- ML Models & Tuning ------------------------------------
+ml_models:
+  svm:
+    enabled: false                  # too slow on 180k+ rows
+    params:
+      C: [0.1, 1, 10]
+      kernel: ["linear", "rbf"]
+  random_forest:
+    enabled: true
+    params:
+      n_estimators: [50, 100, 200]
+      max_depth: [null, 10, 20, 30]
+  xgboost:
+    enabled: true
+    params:
+      learning_rate: [0.01, 0.1, 0.3]
+      n_estimators: [50, 100, 200]
+      max_depth: [3, 6, 10]
+  lightgbm:
+    enabled: true
+    params:
+      learning_rate: [0.01, 0.1, 0.3]
+      n_estimators: [50, 100, 200]
+      num_leaves: [31, 63, 127]
+  catboost:
+    enabled: true
+    params:
+      learning_rate: [0.01, 0.1, 0.3]
+      iterations: [100, 200]
+      depth: [4, 6, 8]
+  gradient_boosting:
+    enabled: true
+    params:
+      learning_rate: [0.01, 0.1, 0.3]
+      n_estimators: [50, 100, 200]
+      max_depth: [3, 5, 7]
+  logistic_regression:
+    enabled: true
+    params:
+      C: [0.01, 0.1, 1.0, 10.0]
+      solver: ["lbfgs"]
+  knn:
+    enabled: true
+    params:
+      n_neighbors: [3, 5, 7, 11]
+      weights: ["uniform", "distance"]
+
+tuning:
+  cv_folds: 5
+  scoring: "f1_weighted"           # safe for multiclass
+  n_jobs: -1
+  search_method: "grid"            # grid | random | optuna
+  n_iter: 50                       # for random / optuna
+  seed: 42
+
+# -- Ensemble -----------------------------------------------
+ensemble:
+  enabled: true
+  types: ["voting", "stacking"]
+  voting_type: "hard"              # hard | soft (soft needs predict_proba)
+  stacking_final_estimator: "logistic_regression"
+  cv: 5
+
+# -- Deep Learning ------------------------------------------
+deep_learning:
+  enabled: true
+  architecture:
+    units: [64, 32, 18]
+    activation: "relu"
+    dropout_rate: 0.3
+    use_batch_norm: true
+  training:
+    epochs: 100
+    batch_size: 32
+    learning_rate: 0.001
+    optimizer: "adam"               # adam | sgd | rmsprop
+    early_stopping_patience: 10
+    reduce_lr_patience: 5
+    reduce_lr_factor: 0.2
+    min_lr: 0.00001
+
+# -- LSTM Deep Learning -------------------------------------
+deep_learning_lstm:
+  enabled: true
+  architecture:
+    lstm_units: [32, 18]
+    dense_units: [18]
+    dropout_rate: 0.3
+    activation: "relu"
+  training:
+    epochs: 100
+    batch_size: 64
+    learning_rate: 0.001
+    optimizer: "adam"
+    early_stopping_patience: 10
+    reduce_lr_patience: 5
+    reduce_lr_factor: 0.2
+    min_lr: 0.00001
+
+# -- CNN1D Deep Learning ------------------------------------
+deep_learning_cnn:
+  enabled: true
+  architecture:
+    filters: [32, 64]
+    kernel_size: 3
+    pool_size: 2
+    dense_units: [32]
+    dropout_rate: 0.3
+    activation: "relu"
+  training:
+    epochs: 100
+    batch_size: 64
+    learning_rate: 0.001
+    optimizer: "adam"
+    early_stopping_patience: 10
+    reduce_lr_patience: 5
+    reduce_lr_factor: 0.2
+    min_lr: 0.00001
+
+# -- Evaluation ---------------------------------------------
+evaluation:
+  metrics:
+    - accuracy
+    - balanced_accuracy
+    - precision_weighted
+    - recall_weighted
+    - f1_weighted
+    - f1_macro
+    - matthews_corrcoef
+    - cohen_kappa
+    - roc_auc
+    - pr_auc
+  confusion_matrix: true
+  classification_report: true
+  roc_curves: true
+  pr_curves: true
+
+# -- Explainability -----------------------------------------
+explainability:
+  shap_enabled: true
+  lime_enabled: true
+  shap_samples: 500              # samples for SHAP computation
+  lime_samples: 5                # number of LIME explanations
+  shap_models:                   # which ML models to run SHAP on
+    - random_forest
+    - xgboost
+    - lightgbm
+  lime_models:
+    - random_forest
+    - xgboost
+
+# -- Error Analysis -----------------------------------------
+error_analysis:
+  enabled: true
+
+# -- Logging ------------------------------------------------
+logging:
+  level: "INFO"                    # DEBUG | INFO | WARNING
+  log_dir: "logs"
+  log_file: "pipeline.log"
+
+# -- Output -------------------------------------------------
+output:
+  save_models: true
+  models_dir: "saved_models"
+  reports_dir: "reports"
+
+# -- Deployment / Serving -----------------------------------
+deployment:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  log_level: "info"
